@@ -14,6 +14,10 @@ if (!isset($_SESSION['login'])) {
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .logo {
             width: 50px;
@@ -65,7 +69,7 @@ if (!isset($_SESSION['login'])) {
             <span class="text-white me-3">
                 👋 <?php echo $_SESSION['user']; ?>
             </span>
-            <a href="../logout.php" class="btn btn-danger btn-sm">Logout</a>
+            <a href="#" onclick="konfirmasiLogout()" class="btn btn-danger btn-sm">Logout</a>
         </div>
     </div>
 </nav>
@@ -135,3 +139,22 @@ if (!isset($_SESSION['login'])) {
 
 </body>
 </html>
+
+<script>
+function konfirmasiLogout() {
+    Swal.fire({
+        title: 'Logout?',
+        text: 'Kamu akan keluar dari sesi ini.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e3342f',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '🚪 Ya, Logout!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '../logout.php';
+        }
+    });
+}
+</script>

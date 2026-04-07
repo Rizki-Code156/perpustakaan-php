@@ -34,6 +34,10 @@ if (isset($_POST['simpan'])) {
 
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -102,6 +106,7 @@ if (isset($_POST['simpan'])) {
             <td>
                 <?php if ($row['status'] == 'dipinjam') { ?>
                     <a href="kembali.php?id=<?= $row['id_transaksi'] ?>" 
+                       onclick="return konfirmasiKembali(this, '<?= htmlspecialchars($row['nama']) ?>', '<?= htmlspecialchars($row['judul']) ?>')"
                        class="btn btn-warning btn-sm">Kembalikan</a>
                 <?php } else { ?>
                     -
@@ -136,6 +141,24 @@ $(document).ready(function () {
         }
     });
 });
+
+function konfirmasiKembali(el, nama, judul) {
+    Swal.fire({
+        title: 'Kembalikan Buku?',
+        html: `<b>${nama}</b> akan mengembalikan buku<br><b>"${judul}"</b>.<br><br>Denda akan dihitung otomatis jika terlambat.`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#f6993f',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '✅ Ya, Kembalikan!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = el.href;
+        }
+    });
+    return false;
+}
 </script>
 
 <!-- CSS belang -->

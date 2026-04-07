@@ -26,6 +26,10 @@ $data = mysqli_query($conn, "SELECT * FROM buku");
 
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -60,7 +64,7 @@ $data = mysqli_query($conn, "SELECT * FROM buku");
                 <td><?= $row['stok'] ?></td>
                 <td>
                     <a href="hapus_buku.php?id=<?= $row['id_buku'] ?>" 
-                       onclick="return confirm('Yakin hapus?')" 
+                       onclick="return konfirmasiHapus(this, '<?= htmlspecialchars($row['judul']) ?>')" 
                        class="btn btn-danger btn-sm">Hapus</a>
                 </td>
             </tr>
@@ -73,6 +77,24 @@ $data = mysqli_query($conn, "SELECT * FROM buku");
 $(document).ready(function () {
     $('#tabelku').DataTable();
 });
+
+function konfirmasiHapus(el, judul) {
+    Swal.fire({
+        title: 'Hapus Buku?',
+        html: `Buku <b>"${judul}"</b> akan dihapus secara permanen.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e3342f',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '🗑️ Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = el.href;
+        }
+    });
+    return false;
+}
 </script>
 
 </body>

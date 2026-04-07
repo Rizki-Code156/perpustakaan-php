@@ -9,7 +9,7 @@ if (isset($_POST['login'])) {
     $captcha  = $_POST['captcha'];
 
     if ($captcha != $_SESSION['captcha']) {
-        echo "<script>alert('Captcha salah!');</script>";
+        $notif = "captcha_salah";
     } else {
 
         $query = mysqli_query($conn, "SELECT * FROM user WHERE username='$username' AND password='$password'");
@@ -18,10 +18,9 @@ if (isset($_POST['login'])) {
         if ($data) {
             $_SESSION['login'] = true;
             $_SESSION['user'] = $data['username'];
-
-            echo "<script>alert('Login berhasil'); window.location='../dashboard/dashboard.php';</script>";
+            $notif = "sukses";
         } else {
-            echo "<script>alert('Username / Password salah');</script>";
+            $notif = "gagal";
         }
     }
 }
@@ -32,6 +31,8 @@ if (isset($_POST['login'])) {
 <head>
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -70,6 +71,38 @@ if (isset($_POST['login'])) {
 function refreshCaptcha() {
     document.getElementById('captchaImg').src = 'captcha.php?' + Date.now();
 }
+
+<?php if (isset($notif)) { ?>
+<?php if ($notif === 'sukses') { ?>
+Swal.fire({
+    title: 'Login Berhasil!',
+    html: 'Selamat datang, <b><?= $_SESSION['user'] ?></b>!<br>Mengalihkan ke dashboard...',
+    icon: 'success',
+    timer: 2000,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    allowOutsideClick: false
+}).then(() => {
+    window.location = '../dashboard/dashboard.php';
+});
+<?php } elseif ($notif === 'gagal') { ?>
+Swal.fire({
+    title: 'Login Gagal!',
+    text: 'Username atau password salah. Silakan coba lagi.',
+    icon: 'error',
+    confirmButtonColor: '#e3342f',
+    confirmButtonText: 'Coba Lagi'
+});
+<?php } elseif ($notif === 'captcha_salah') { ?>
+Swal.fire({
+    title: 'Captcha Salah!',
+    text: 'Kode captcha yang kamu masukkan tidak sesuai.',
+    icon: 'warning',
+    confirmButtonColor: '#f6993f',
+    confirmButtonText: 'OK'
+});
+<?php } ?>
+<?php } ?>
 </script>
 
 </body>

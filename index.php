@@ -14,9 +14,11 @@
         .logo {
             width: 50px;
         }
-        .carousel img {
-            height: 400px;
+        .carousel-item img {
+            height: 450px;
+            width: 100%;
             object-fit: cover;
+            object-position: center;
         }
         .card img {
             height: 200px;

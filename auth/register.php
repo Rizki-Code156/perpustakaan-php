@@ -9,17 +9,16 @@ if (isset($_POST['register'])) {
     $captcha  = $_POST['captcha'];
 
     if ($captcha != $_SESSION['captcha']) {
-        echo "<script>alert('Captcha salah!');</script>";
+        $notif = "captcha_salah";
     } else {
 
         $cek = mysqli_query($conn, "SELECT * FROM user WHERE username='$username'");
 
         if (mysqli_num_rows($cek) > 0) {
-            echo "<script>alert('Username sudah ada!');</script>";
+            $notif = "username_ada";
         } else {
-
             mysqli_query($conn, "INSERT INTO user (username,password,role) VALUES ('$username','$password','admin')");
-            echo "<script>alert('Register berhasil!'); window.location='login.php';</script>";
+            $notif = "sukses";
         }
     }
 }
@@ -30,6 +29,8 @@ if (isset($_POST['register'])) {
 <head>
     <title>Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -68,6 +69,38 @@ if (isset($_POST['register'])) {
 function refreshCaptcha() {
     document.getElementById('captchaImg').src = 'captcha.php?' + Date.now();
 }
+
+<?php if (isset($notif)) { ?>
+<?php if ($notif === 'sukses') { ?>
+Swal.fire({
+    title: 'Registrasi Berhasil!',
+    html: 'Akun kamu berhasil dibuat.<br>Mengalihkan ke halaman login...',
+    icon: 'success',
+    timer: 2000,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    allowOutsideClick: false
+}).then(() => {
+    window.location = 'login.php';
+});
+<?php } elseif ($notif === 'username_ada') { ?>
+Swal.fire({
+    title: 'Username Sudah Dipakai!',
+    text: 'Coba gunakan username yang berbeda.',
+    icon: 'error',
+    confirmButtonColor: '#e3342f',
+    confirmButtonText: 'Coba Lagi'
+});
+<?php } elseif ($notif === 'captcha_salah') { ?>
+Swal.fire({
+    title: 'Captcha Salah!',
+    text: 'Kode captcha yang kamu masukkan tidak sesuai.',
+    icon: 'warning',
+    confirmButtonColor: '#f6993f',
+    confirmButtonText: 'OK'
+});
+<?php } ?>
+<?php } ?>
 </script>
 
 </body>
