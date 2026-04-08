@@ -47,28 +47,16 @@ while($g = mysqli_fetch_assoc($grafik)){
     <title>Laporan Transaksi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- ✅ CSS PRINT -->
     <style>
     @media print {
-        body * {
-            visibility: hidden;
-        }
-
-        #tabelPrint, #tabelPrint * {
-            visibility: visible;
-        }
-
-        #tabelPrint {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
+        body * { visibility: hidden; }
+        #tabelPrint, #tabelPrint * { visibility: visible; }
+        #tabelPrint { position: absolute; top: 0; left: 0; width: 100%; }
     }
     </style>
 </head>
 <body>
+<?php include 'header.php'; ?>
 
 <div class="container mt-4">
     <h3>📊 Laporan Transaksi</h3>
@@ -150,3 +138,4 @@ new Chart(ctx, {
 
 </body>
 </html>
+<?php include 'footer.php'; ?>

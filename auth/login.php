@@ -58,7 +58,8 @@ if (isset($_POST['login'])) {
 
                     <input type="text" name="captcha" class="form-control mb-3" placeholder="Masukkan captcha" required>
 
-                    <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
+                    <button type="submit" name="login" class="btn btn-primary w-100 mb-2">Login</button>
+                    <a href="../index.php" class="btn btn-outline-secondary w-100">← Kembali ke Beranda</a>
 
                 </form>
             </div>

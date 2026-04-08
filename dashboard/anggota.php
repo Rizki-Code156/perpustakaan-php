@@ -14,18 +14,13 @@ $data = mysqli_query($conn, "SELECT * FROM anggota");
 <html>
 <head>
     <title>Data Anggota</title>
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-
-    <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+<?php include 'header.php'; ?>
 
 <div class="container mt-4">
     <h3>👤 Data Anggota</h3>
@@ -119,3 +114,4 @@ function konfirmasiHapus(el, nama) {
 
 </body>
 </html>
+<?php include 'footer.php'; ?>
